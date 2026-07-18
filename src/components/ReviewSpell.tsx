@@ -121,7 +121,7 @@ export default function ReviewSpell({
           {/* Phase Badge */}
           <div className="mb-6">
             <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#2a2010] text-[#f59e0b]">
-              Spelling Mode
+              拼写模式
             </span>
           </div>
 
@@ -129,7 +129,7 @@ export default function ReviewSpell({
           <p className="text-2xl text-gray-300 mb-2 leading-relaxed">
             {currentWord.chinese}
           </p>
-          <p className="text-gray-700 text-sm mb-6">Spell the English word</p>
+          <p className="text-gray-700 text-sm mb-6">拼写出这个英文单词</p>
 
           {/* Input Area - clickable container */}
           <div
@@ -191,17 +191,17 @@ export default function ReviewSpell({
 
           {/* Hint text */}
           {!checked && input.length === 0 && (
-            <p className="text-gray-700 text-xs">Click here and type the word</p>
+            <p className="text-gray-700 text-xs">点击此处输入单词</p>
           )}
 
           {/* Feedback */}
           {checked && (
             <div className="mt-4" style={{ animation: 'fadeUp 0.3s ease' }}>
               {isCorrect ? (
-                <p className="text-green-400 text-sm font-medium">Correct!</p>
+                <p className="text-green-400 text-sm font-medium">正确！</p>
               ) : (
                 <div>
-                  <p className="text-red-400 text-sm font-medium mb-1">Try again later</p>
+                  <p className="text-red-400 text-sm font-medium mb-1">稍后重试</p>
                   <p
                     className="text-white text-lg"
                     style={{ fontFamily: '"DM Serif Display", "Playfair Display", serif' }}
@@ -236,7 +236,7 @@ export default function ReviewSpell({
             }}
           >
             <ArrowRight className="w-4 h-4" />
-            <span>Next</span>
+            <span>下一个</span>
           </button>
         )}
       </div>

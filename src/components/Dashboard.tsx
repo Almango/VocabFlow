@@ -57,11 +57,11 @@ export default function Dashboard({
           >
             VocabFlow
           </h1>
-          <p className="text-gray-500 text-xs mt-1">Words shape the mind</p>
+          <p className="text-gray-500 text-xs mt-1">词汇塑造思维</p>
         </div>
         <div className="text-right">
           <p className="text-xl font-semibold text-white">{totalWords}</p>
-          <p className="text-gray-500 text-xs">words</p>
+          <p className="text-gray-500 text-xs">单词</p>
         </div>
       </div>
 
@@ -72,8 +72,8 @@ export default function Dashboard({
             <Brain className="w-6 h-6 text-[#60a5fa]" />
           </div>
           <div className="flex-1">
-            <p className="text-white font-medium text-sm">Learning Progress</p>
-            <p className="text-gray-500 text-xs">{totalReviewed} / {totalWords} words reviewed</p>
+            <p className="text-white font-medium text-sm">学习进度</p>
+            <p className="text-gray-500 text-xs">已复习 {totalReviewed} / {totalWords} 个单词</p>
           </div>
           <div className="relative w-14 h-14">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -147,7 +147,7 @@ export default function Dashboard({
                     </button>
                   </div>
                 )}
-                <p className="text-gray-600 text-xs">{group.words.length} words</p>
+                <p className="text-gray-600 text-xs">{group.words.length} 个单词</p>
               </div>
 
               <div className="flex items-center gap-1.5">
@@ -163,7 +163,7 @@ export default function Dashboard({
                   <button
                     onClick={() => onStartReview(group.id)}
                     className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#1a3a2e] text-green-400 hover:bg-[#1f4a38] transition-all"
-                    title="Start review"
+                    title="开始复习"
                   >
                     <Play className="w-3.5 h-3.5" />
                   </button>
@@ -218,7 +218,7 @@ export default function Dashboard({
               type="text"
               value={newName}
               onChange={e => setNewName(e.target.value)}
-              placeholder="Group name..."
+              placeholder="词组名称..."
               className="bg-transparent text-white placeholder-gray-600 outline-none text-sm px-3 py-1.5 w-44"
               autoFocus
               onKeyDown={e => {

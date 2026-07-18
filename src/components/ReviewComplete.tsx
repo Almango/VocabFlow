@@ -36,9 +36,9 @@ export default function ReviewComplete({ reviewState, onHome, onRetry }: ReviewC
           className="text-2xl font-bold text-white mb-1"
           style={{ fontFamily: '"DM Serif Display", "Playfair Display", serif' }}
         >
-          Session Complete
+          复习完成
         </h2>
-        <p className="text-gray-600 text-sm mb-7">Great work! Keep building your vocabulary.</p>
+        <p className="text-gray-600 text-sm mb-7">做得好！继续积累词汇。</p>
 
         {/* Stats Grid */}
         <div
@@ -52,18 +52,18 @@ export default function ReviewComplete({ reviewState, onHome, onRetry }: ReviewC
           <div className="rounded-xl p-4 bg-[#1a2030] border border-[#2a3a50]">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Target className="w-3.5 h-3.5 text-[#60a5fa]" />
-              <span className="text-gray-500 text-xs">Recall</span>
+              <span className="text-gray-500 text-xs">识忆</span>
             </div>
             <p className="text-xl font-bold text-white">{recallRate}%</p>
             <p className="text-gray-600 text-xs mt-1">
-              {reviewState.stats.recallCorrect}/{totalRecall} correct
+              {reviewState.stats.recallCorrect}/{totalRecall} 正确
             </p>
           </div>
 
           <div className="rounded-xl p-4 bg-[#2a2010] border border-[#3a3020]">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Zap className="w-3.5 h-3.5 text-yellow-500" />
-              <span className="text-gray-500 text-xs">Spelling</span>
+              <span className="text-gray-500 text-xs">拼写</span>
             </div>
             <p className="text-xl font-bold text-white">{spellRate}%</p>
             <p className="text-gray-600 text-xs mt-1">
@@ -79,14 +79,14 @@ export default function ReviewComplete({ reviewState, onHome, onRetry }: ReviewC
             className="flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-gray-400 font-medium text-sm transition-all hover:bg-[#1a1a20] active:scale-[0.98] bg-[#16161a] border border-[#1e1e24]"
           >
             <Home className="w-4 h-4" />
-            <span>Home</span>
+            <span>首页</span>
           </button>
           <button
             onClick={onRetry}
             className="flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-green-400 font-medium text-sm transition-all hover:bg-[#1f3a26] active:scale-[0.98] bg-[#1a2e1f] border border-[#203a28]"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Review Again</span>
+            <span>再次复习</span>
           </button>
         </div>
       </div>

@@ -72,7 +72,7 @@ export default function ReviewRecall({
           {/* Phase Badge */}
           <div className="mb-6">
             <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#1a2030] text-[#60a5fa]">
-              Recall Mode
+              识忆模式
             </span>
           </div>
 
@@ -107,7 +107,7 @@ export default function ReviewRecall({
           </div>
 
           {!revealed && (
-            <p className="text-gray-700 text-sm mt-4">Think of the meaning...</p>
+            <p className="text-gray-700 text-sm mt-4">想想它的意思...</p>
           )}
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function ReviewRecall({
             className="w-full py-3.5 rounded-xl flex items-center justify-center gap-2 text-white font-medium transition-all hover:bg-[#1e2840] active:scale-[0.98] bg-[#1a2030] border border-[#2a3a50]"
           >
             <Eye className="w-4 h-4" />
-            <span>Show Answer</span>
+            <span>显示答案</span>
           </button>
         ) : (
           <div className="flex gap-3" style={{ animation: 'fadeUp 0.25s ease' }}>
@@ -139,7 +139,7 @@ export default function ReviewRecall({
               className="flex-1 py-3.5 rounded-xl flex items-center justify-center gap-2 text-green-400 font-medium transition-all hover:bg-[#1a2e1f] active:scale-[0.98] bg-[#1a2e1f] border border-[#203a28]"
             >
               <Check className="w-4 h-4" />
-              <span>Correct</span>
+              <span>认识</span>
             </button>
           </div>
         )}

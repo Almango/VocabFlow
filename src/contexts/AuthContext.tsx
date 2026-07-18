@@ -1,17 +1,44 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { supabase } from '@/lib/supabase';
-import type { User } from '@supabase/supabase-js';
+import type { User, AuthError } from '@supabase/supabase-js';
+
+const USERNAME_EMAIL_DOMAIN = 'vocabflow.local';
+
+export function usernameToEmail(username: string): string {
+  return `${username.trim().toLowerCase()}@${USERNAME_EMAIL_DOMAIN}`;
+}
+
+export function emailToUsername(email: string | undefined): string | null {
+  if (!email) return null;
+  if (email.endsWith(`@${USERNAME_EMAIL_DOMAIN}`)) {
+    return email.slice(0, -`@${USERNAME_EMAIL_DOMAIN}`.length);
+  }
+  return null;
+}
+
+export function getDisplayName(user: User | null): string | null {
+  if (!user) return null;
+  const metaUsername = user.user_metadata?.username as string | undefined;
+  if (metaUsername) return metaUsername;
+  return emailToUsername(user.email);
+}
 
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
   error: Error | null;
+  signUp: (username: string, password: string) => Promise<{ error: AuthError | null }>;
+  signIn: (username: string, password: string) => Promise<{ error: AuthError | null }>;
+  signOut: () => Promise<{ error: AuthError | null }>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   loading: true,
   error: null,
+  signUp: async () => ({ error: null }),
+  signIn: async () => ({ error: null }),
+  signOut: async () => ({ error: null }),
 });
 
 export function useAuth() {
@@ -72,8 +99,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const signUp = async (username: string, password: string) => {
+    const email = usernameToEmail(username);
+    const metadata = { username: username.trim().toLowerCase() };
+
+    if (user && user.is_anonymous) {
+      // 匿名用户升级为正式用户，保留 user_id 和数据
+      const { error } = await supabase.auth.updateUser({
+        email,
+        password,
+        data: metadata,
+      });
+      return { error };
+    }
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: metadata },
+    });
+    return { error };
+  };
+
+  const signIn = async (username: string, password: string) => {
+    const email = usernameToEmail(username);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    return { error };
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      await supabase.auth.signInAnonymously();
+    }
+    return { error };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, error }}>
+    <AuthContext.Provider value={{ user, loading, error, signUp, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

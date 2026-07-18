@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useWordGroups } from '@/hooks/useWordGroups';
+import { useAuth, getDisplayName } from '@/contexts/AuthContext';
 import Background3D from '@/components/Background3D';
 import Dashboard from '@/components/Dashboard';
 import AddWords from '@/components/AddWords';
 import ReviewRecall from '@/components/ReviewRecall';
 import ReviewSpell from '@/components/ReviewSpell';
 import ReviewComplete from '@/components/ReviewComplete';
-import { Cloud, Check, Loader2, AlertCircle } from 'lucide-react';
+import AuthModal from '@/components/AuthModal';
+import { Cloud, Check, Loader2, AlertCircle, User, LogOut } from 'lucide-react';
 import type { SyncStatus } from '@/hooks/useWordGroups';
 import './App.css';
 
@@ -67,16 +70,50 @@ function App() {
     goToDashboard,
   } = useWordGroups();
 
+  const { user, signOut } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authTab, setAuthTab] = useState<'login' | 'signup'>('login');
+
   const activeGroup = activeGroupId ? getGroup(activeGroupId) : undefined;
+  const isAnonymous = user?.is_anonymous ?? true;
+  const displayName = getDisplayName(user);
 
   return (
     <div className="min-h-screen" style={{ background: '#08080a' }}>
       {/* Clean Background */}
       <Background3D />
 
-      {/* Sync Status */}
-      <div className="fixed top-4 right-4 z-50 px-3 py-1.5 rounded-full bg-[#121216]/80 border border-[#1e1e24] backdrop-blur-sm">
-        <SyncIndicator status={syncStatus} />
+      {/* Top Bar */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        {/* Sync Status */}
+        <div className="px-3 py-1.5 rounded-full bg-[#121216]/80 border border-[#1e1e24] backdrop-blur-sm">
+          <SyncIndicator status={syncStatus} />
+        </div>
+
+        {/* User Button */}
+        {isAnonymous ? (
+          <button
+            onClick={() => {
+              setAuthTab('login');
+              setAuthOpen(true);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121216]/80 border border-[#1e1e24] text-gray-300 text-xs hover:text-white hover:border-[#2a2a36] transition-colors"
+          >
+            <User className="w-3.5 h-3.5" />
+            <span>登录</span>
+          </button>
+        ) : (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#121216]/80 border border-[#1e1e24] text-xs">
+            <span className="text-gray-300 truncate max-w-[120px]">{displayName || '已登录'}</span>
+            <button
+              onClick={() => signOut()}
+              className="text-gray-500 hover:text-red-400 transition-colors"
+              title="登出"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Main Content */}
@@ -129,6 +166,8 @@ function App() {
           )}
         </>
       )}
+
+      <AuthModal open={authOpen} onOpenChange={setAuthOpen} defaultTab={authTab} />
     </div>
   );
 }

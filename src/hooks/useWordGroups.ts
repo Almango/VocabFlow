@@ -50,6 +50,20 @@ export function useWordGroups() {
 
   const hasLocalChanges = useRef(false);
   const initialSyncDone = useRef(false);
+  const previousUserId = useRef<string | null>(null);
+
+  // 用户切换时重置同步状态
+  useEffect(() => {
+    const currentUserId = user?.id ?? null;
+    if (currentUserId !== previousUserId.current) {
+      initialSyncDone.current = false;
+      // 从匿名用户切换到正式账号时，优先使用云端已有数据
+      if (previousUserId.current && user && !user.is_anonymous) {
+        hasLocalChanges.current = false;
+      }
+      previousUserId.current = currentUserId;
+    }
+  }, [user]);
 
   // 首次登录后从云端拉取数据
   useEffect(() => {

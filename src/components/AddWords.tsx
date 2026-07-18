@@ -76,7 +76,7 @@ export default function AddWords({ group, onAddWord, onDeleteWord, onBack }: Add
             value={english}
             onChange={e => setEnglish(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="English word..."
+            placeholder="请输入单词..."
             className="flex-1 bg-transparent text-white placeholder-gray-700 outline-none text-lg border-b border-[#1e1e24] focus:border-[#60a5fa]/50 pb-2 transition-colors"
             style={{ fontFamily: '"DM Serif Display", "Playfair Display", serif' }}
             autoComplete="off"
@@ -91,7 +91,7 @@ export default function AddWords({ group, onAddWord, onDeleteWord, onBack }: Add
             ) : (
               <Sparkles className="w-3.5 h-3.5" />
             )}
-            <span>Translate</span>
+            <span>翻译</span>
           </button>
         </div>
 
@@ -100,7 +100,7 @@ export default function AddWords({ group, onAddWord, onDeleteWord, onBack }: Add
           value={chinese}
           onChange={e => setChinese(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Chinese meaning..."
+          placeholder="正在翻译成中文..."
           className="w-full bg-transparent text-white placeholder-gray-700 outline-none text-base border-b border-[#1e1e24] focus:border-[#60a5fa]/50 pb-2 transition-colors mb-3"
         />
 
@@ -110,7 +110,7 @@ export default function AddWords({ group, onAddWord, onDeleteWord, onBack }: Add
           className="w-full py-2.5 rounded-xl bg-[#1a2e1f] text-green-400 hover:bg-[#1f3a26] disabled:opacity-30 disabled:hover:bg-[#1a2e1f] transition-all text-sm font-medium flex items-center justify-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Word</span>
+          <span>添加单词</span>
         </button>
       </div>
 
@@ -147,8 +147,8 @@ export default function AddWords({ group, onAddWord, onDeleteWord, onBack }: Add
 
         {group.words.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-700 text-sm">No words yet</p>
-            <p className="text-gray-800 text-xs mt-1">Start adding words above</p>
+            <p className="text-gray-700 text-sm">还没有单词</p>
+            <p className="text-gray-800 text-xs mt-1">在上方添加单词</p>
           </div>
         )}
       </div>
