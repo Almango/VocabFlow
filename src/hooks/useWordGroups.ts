@@ -57,8 +57,8 @@ export function useWordGroups() {
     const currentUserId = user?.id ?? null;
     if (currentUserId !== previousUserId.current) {
       initialSyncDone.current = false;
-      // 从匿名用户切换到正式账号时，优先使用云端已有数据
-      if (previousUserId.current && user && !user.is_anonymous) {
+      // 从 A 账号切换到 B 账号时，优先使用 B 账号的云端数据
+      if (previousUserId.current && currentUserId && previousUserId.current !== currentUserId) {
         hasLocalChanges.current = false;
       }
       previousUserId.current = currentUserId;

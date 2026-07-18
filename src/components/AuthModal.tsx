@@ -18,14 +18,12 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ open, onOpenChange, defaultTab = 'login' }: AuthModalProps) {
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp } = useAuth();
   const [tab, setTab] = useState(defaultTab);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const isAnonymous = user?.is_anonymous ?? false;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -56,8 +54,8 @@ export default function AuthModal({ open, onOpenChange, defaultTab = 'login' }: 
             {tab === 'login' ? '登录账号' : '创建账号'}
           </DialogTitle>
           <DialogDescription className="text-gray-400">
-            {isAnonymous && tab === 'signup'
-              ? '当前是匿名用户，创建账号后会保留现有数据。'
+            {tab === 'signup'
+              ? '创建账号后，当前本地数据会自动同步到云端。'
               : '登录后可跨设备同步你的词组数据。'}
           </DialogDescription>
         </DialogHeader>
@@ -93,7 +91,7 @@ export default function AuthModal({ open, onOpenChange, defaultTab = 'login' }: 
               setPassword={setPassword}
               loading={loading}
               error={error}
-              submitLabel={isAnonymous ? '保存到账号' : '创建账号'}
+              submitLabel="创建账号"
               onSubmit={handleSubmit}
             />
           </TabsContent>

@@ -75,7 +75,7 @@ function App() {
   const [authTab, setAuthTab] = useState<'login' | 'signup'>('login');
 
   const activeGroup = activeGroupId ? getGroup(activeGroupId) : undefined;
-  const isAnonymous = user?.is_anonymous ?? true;
+  const isLoggedIn = Boolean(user);
   const displayName = getDisplayName(user);
 
   return (
@@ -91,7 +91,7 @@ function App() {
         </div>
 
         {/* User Button */}
-        {isAnonymous ? (
+        {!isLoggedIn ? (
           <button
             onClick={() => {
               setAuthTab('login');
@@ -115,6 +115,9 @@ function App() {
           </div>
         )}
       </div>
+
+      {/* Login Prompt */}
+      {!isLoggedIn && currentView === 'dashboard'}
 
       {/* Main Content */}
       {currentView === 'dashboard' && (

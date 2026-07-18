@@ -132,14 +132,14 @@ export default function ReviewRecall({
               className="flex-1 py-3.5 rounded-xl flex items-center justify-center gap-2 text-red-400 font-medium transition-all hover:bg-[#2a1a1a] active:scale-[0.98] bg-[#1e1414] border border-[#3a2020]"
             >
               <X className="w-4 h-4" />
-              <span>Incorrect</span>
+              <span>不熟悉</span>
             </button>
             <button
               onClick={() => onMarkRecall(true)}
               className="flex-1 py-3.5 rounded-xl flex items-center justify-center gap-2 text-green-400 font-medium transition-all hover:bg-[#1a2e1f] active:scale-[0.98] bg-[#1a2e1f] border border-[#203a28]"
             >
               <Check className="w-4 h-4" />
-              <span>认识</span>
+              <span>熟悉</span>
             </button>
           </div>
         )}

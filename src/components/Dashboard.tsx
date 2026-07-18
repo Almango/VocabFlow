@@ -96,8 +96,8 @@ export default function Dashboard({
 
       {/* Word Groups */}
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-sm text-gray-400 font-medium uppercase tracking-wider">Word Groups</h2>
-        <span className="text-gray-600 text-xs">{groups.length} groups</span>
+        <h2 className="text-sm text-gray-400 font-medium uppercase tracking-wider">单词组</h2>
+        <span className="text-gray-600 text-xs">{groups.length} 个单词组</span>
       </div>
 
       <div className="space-y-2.5">

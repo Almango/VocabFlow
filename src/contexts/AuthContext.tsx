@@ -67,13 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       try {
         const { data: sessionData } = await supabase.auth.getSession();
-        let currentUser = sessionData.session?.user ?? null;
-
-        if (!currentUser) {
-          const { data, error: signInError } = await supabase.auth.signInAnonymously();
-          if (signInError) throw signInError;
-          currentUser = data.user ?? null;
-        }
+        const currentUser = sessionData.session?.user ?? null;
 
         if (mounted) {
           setUser(currentUser);
@@ -103,16 +97,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const email = usernameToEmail(username);
     const metadata = { username: username.trim().toLowerCase() };
 
-    if (user && user.is_anonymous) {
-      // 匿名用户升级为正式用户，保留 user_id 和数据
-      const { error } = await supabase.auth.updateUser({
-        email,
-        password,
-        data: metadata,
-      });
-      return { error };
-    }
-
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -129,9 +113,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (!error) {
-      await supabase.auth.signInAnonymously();
-    }
     return { error };
   };
 
