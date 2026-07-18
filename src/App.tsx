@@ -1,0 +1,136 @@
+import { useWordGroups } from '@/hooks/useWordGroups';
+import Background3D from '@/components/Background3D';
+import Dashboard from '@/components/Dashboard';
+import AddWords from '@/components/AddWords';
+import ReviewRecall from '@/components/ReviewRecall';
+import ReviewSpell from '@/components/ReviewSpell';
+import ReviewComplete from '@/components/ReviewComplete';
+import { Cloud, Check, Loader2, AlertCircle } from 'lucide-react';
+import type { SyncStatus } from '@/hooks/useWordGroups';
+import './App.css';
+
+function SyncIndicator({ status }: { status: SyncStatus }) {
+  if (status === 'idle') {
+    return (
+      <div className="flex items-center gap-1.5 text-gray-500 text-xs">
+        <Cloud className="w-3.5 h-3.5" />
+        <span>本地</span>
+      </div>
+    );
+  }
+
+  if (status === 'syncing') {
+    return (
+      <div className="flex items-center gap-1.5 text-blue-400 text-xs">
+        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+        <span>同步中</span>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="flex items-center gap-1.5 text-red-400 text-xs" title="同步失败，数据仍保存在本地">
+        <AlertCircle className="w-3.5 h-3.5" />
+        <span>同步失败</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-1.5 text-green-400 text-xs">
+      <Check className="w-3.5 h-3.5" />
+      <span>已同步</span>
+    </div>
+  );
+}
+
+function App() {
+  const {
+    groups,
+    currentView,
+    activeGroupId,
+    reviewState,
+    syncStatus,
+    createGroup,
+    deleteGroup,
+    renameGroup,
+    addWord,
+    deleteWord,
+    getGroup,
+    startReview,
+    showAnswer,
+    markRecall,
+    markSpelling,
+    exitReview,
+    goToAddWords,
+    goToDashboard,
+  } = useWordGroups();
+
+  const activeGroup = activeGroupId ? getGroup(activeGroupId) : undefined;
+
+  return (
+    <div className="min-h-screen" style={{ background: '#08080a' }}>
+      {/* Clean Background */}
+      <Background3D />
+
+      {/* Sync Status */}
+      <div className="fixed top-4 right-4 z-50 px-3 py-1.5 rounded-full bg-[#121216]/80 border border-[#1e1e24] backdrop-blur-sm">
+        <SyncIndicator status={syncStatus} />
+      </div>
+
+      {/* Main Content */}
+      {currentView === 'dashboard' && (
+        <Dashboard
+          groups={groups}
+          onCreateGroup={createGroup}
+          onDeleteGroup={deleteGroup}
+          onRenameGroup={renameGroup}
+          onStartReview={startReview}
+          onGoToAddWords={goToAddWords}
+        />
+      )}
+
+      {currentView === 'add-words' && activeGroup && (
+        <AddWords
+          group={activeGroup}
+          onAddWord={addWord}
+          onDeleteWord={deleteWord}
+          onBack={goToDashboard}
+        />
+      )}
+
+      {currentView === 'review' && reviewState && activeGroup && (
+        <>
+          {reviewState.phase === 'recall' && reviewState.recallQueue.length > 0 && (
+            <ReviewRecall
+              reviewState={reviewState}
+              group={activeGroup}
+              onShowAnswer={showAnswer}
+              onMarkRecall={markRecall}
+              onExit={exitReview}
+            />
+          )}
+
+          {reviewState.phase === 'spelling' && reviewState.spellingQueue.length > 0 && (
+            <ReviewSpell
+              reviewState={reviewState}
+              onMarkSpelling={markSpelling}
+              onExit={exitReview}
+            />
+          )}
+
+          {reviewState.phase === 'complete' && (
+            <ReviewComplete
+              reviewState={reviewState}
+              onHome={exitReview}
+              onRetry={() => activeGroupId && startReview(activeGroupId)}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+export default App;
